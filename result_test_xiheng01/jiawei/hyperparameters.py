@@ -9,16 +9,16 @@ import numpy as np
 class EnvConfig(object):
     def __init__(self):
         self.Hold_Strategy = 4
-        #TODO:change the stop number here (optional) *may be inaccurate*
-        self.Stop_Num = 33  # 6
-        # TODO:change the bus number here
+
+        self.Stop_Num = 17  # 6
+        # TODO:change the pax number here
         self.bus_num_each_dir = 8  # 3 每個方向
         # self.mu_time = 3.5 # min
         self.mu_v = 27  # km/h
         self.sigma_v = 4.5  # km/h
         self.headway = 8 * 60  # /s
         # self.road_length = np.pi*4# np.pi*2
-        self.road_length = 17500  # m
+        self.road_length = 9210  # m
         self.alight_rate = 0.55
         self.board_rate = 0.33
 
@@ -56,9 +56,8 @@ class EnvConfig(object):
         intersec_size = [2, 2, 2, 1, 2, 2, 2, 5, 2, 2, 2, 2, 2, 2, 2, 2, 5, 2, 1, 3, 5, 1, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2,
                          2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 5, 2, 2, 2, 2, 2, 2, 3]
         intersec_num = sum(intersec_flag)
-        self.Stop_Num = len(intersec_flag)-intersec_num
         # x = lambda :random.randint(0,1)
-        init_phase = [1] * intersec_num
+        init_phase = [1] * intersec_size
         pass_time, p1_time, p2_time = [], [], []
         # for _ in range(intersec_num):
         #     init_phase.append(x())
@@ -66,22 +65,10 @@ class EnvConfig(object):
             if size == 1:
                 p1_time.append(20)
                 p2_time.append(30)
-                pass_time.append(10)
-            elif size == 2:
-                p1_time.append(30)
-                p2_time.append(30)
-                pass_time.append(15)
-            elif size == 3:
-                p1_time.append(35)
-                p2_time.append(40)
-                pass_time.append(13)
-            elif size == 5:
-                p1_time.append(40)
-                p2_time.append(100)
-                pass_time.append(20)
-        # pass_time = [20, 20, 20, 20, 20, 20, 20, 20, 20]
-        # p1_time = [30, 30, 30, 30, 30, 30, 30, 30, 30]
-        # p2_time = [30, 30, 30, 30, 30, 30, 30, 30, 30]
+                pass_time.append()
+        pass_time = [20, 20, 20, 20, 20, 20, 20, 20, 20]
+        p1_time = [30, 30, 30, 30, 30, 30, 30, 30, 30]
+        p2_time = [30, 30, 30, 30, 30, 30, 30, 30, 30]
 
         init_phase_rev = init_phase[::-1]
         self.Init_Phase_List = [init_phase, init_phase_rev]

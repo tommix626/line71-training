@@ -41,7 +41,8 @@ class CLS_bus():
         
         self.pax_list = []
         self.alight_list = [0 for i in range(stop_nums)]
-        
+        self.phase = -1
+
         self.id = id
         self.trajectory = []
         self.hold_action = []

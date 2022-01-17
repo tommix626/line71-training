@@ -52,7 +52,7 @@ envConfig = EnvConfig()
 Hold_Strategy = envConfig.Hold_Strategy  # 0 - no control; 1 - schedule-based 2 - forward headway, 3- two-way headway based # 4- Jiawei
 #---存储结果"/result"---
 root = os.getcwd()
-result_dname = "result_test_xiheng01"
+result_dname = "result_test_71line_16car_"
 if Hold_Strategy == 0:
     tmp = os.path.join(root,result_dname)
     result_path = os.path.join(tmp,"no_control")
