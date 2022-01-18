@@ -3,7 +3,7 @@
 import numpy as np
 import scipy.stats as stats
 import math
-from Bus_plus_Stop import CLS_bus,bus_stop,CLS_intersec
+from Bus_plus_Stop import CLS_bus,CLS_bus_stop,CLS_intersec
 import time
 class Line():
     def __init__(self,dir,envConfig=None):
@@ -11,7 +11,7 @@ class Line():
         self.node_loc = envConfig.Node_Loc_List[dir]
         self.links = len(self.node_loc)
         self.stop_nums = envConfig.Stop_Num
-        self.stop_loc_list = envConfig.Stop_Loc_List[dir]
+        self.stop_loc_list = envConfig.Stop_Loc_List[dir] #onlyonedirection
         self.hold_strategy = envConfig.Hold_Strategy
         self.pax_saturate = envConfig.pax_saturate
         self.warm_up_time = envConfig.warm_up_time
@@ -46,12 +46,12 @@ class Line():
         self.FH_ds = [0 for _ in range(self.stop_nums)]# headway_based的方法的slack time, forward_based和two-way_based共用
 
         arr_rates = envConfig.Arr_Rates[self.dir]
-        for i in range(self.stop_nums):
+        for i in range(self.stop_nums): #FIXME: stop_num*2 因为有逆序了一遍 NOOO! a Line is single directed
             ave_cost_time = [arr_rates[j]*self.headway/self.board_rate if j==0 else \
                              arr_rates[j]*self.headway/self.board_rate+mu_t*60+slack_time for j in range(i+1)]
             depart_schedule = sum(ave_cost_time)
-            bs = bus_stop(loc=self.stop_loc_list[i], i=i,wait_num=wait_nums[i],arr_rate=arr_rates[i],\
-                          depart_schedule=depart_schedule,stop_num=self.stop_nums)
+            bs = CLS_bus_stop(loc=self.stop_loc_list[i], i=i, wait_num=wait_nums[i], arr_rate=arr_rates[i], \
+                              depart_schedule=depart_schedule, stop_num=self.stop_nums)
             self.stop_list.append(bs)
             self.depart_times[i] = depart_schedule
             
@@ -87,7 +87,7 @@ class Line():
 
         """
         
-        for i in range(self.stop_nums):
+        for i in range(self.stop_nums-1): #-1 to ban the last stop generate pax
             self.stop_list[i].proceed()
             # for j in range(len(self.stop_list[i].pax_list)):
             #     self.stop_list[i].pax_list[j].wait_time += 1
@@ -219,7 +219,7 @@ class Line():
                         bus_link[b.nextnode_ind+1].append([b.id,b.w])
                 else:
                     bus_link[b.nextnode_ind].append([b.id,b.w])
-            for b in self.bus_list:
+            for b in self.bus_list: #同一路段上所有车速度保持相等
                 if b.at_stop == True or b.at_intersec == True:
                     if b.move_flag == True and b.nextnode_ind+1 <= self.links-1:
                         if bus_link[b.nextnode_ind+1]!=[[b.id,b.w]]:
