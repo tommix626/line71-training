@@ -7,7 +7,7 @@ Created on Mon Dec 28 14:26:07 2020
 """
 
 import numpy as np
-from Bus_plus_Stop import CLS_bus,bus_stop
+from Bus_plus_Stop import CLS_bus,CLS_bus_stop
 from Line import Line
 import datetime
 import scipy.stats as stats

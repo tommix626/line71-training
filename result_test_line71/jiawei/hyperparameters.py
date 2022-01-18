@@ -10,7 +10,7 @@ class EnvConfig(object):
     def __init__(self):
         self.Hold_Strategy = 4
         #TODO:change the stop number here (optional) *may be inaccurate*
-        self.Stop_Num = 24  # 6
+        self.Stop_Num = 23  # 6
         # TODO:change the bus number here
         self.bus_num_each_dir = 8  # 3 每個方向
         # self.mu_time = 3.5 # min
@@ -92,7 +92,7 @@ class EnvConfig(object):
         stop_loc = []
         intersec_loc = []
         for i in range(len(node_loc)):
-            if intersec_flag[i]:
+            if intersec_flag[i] == True:
                 intersec_loc.append(node_loc[i])
             else:
                 stop_loc.append(node_loc[i])
@@ -127,7 +127,7 @@ class Config(object):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # bus
-        self.num_agents = 16  # 6 TODO:change?
+        self.num_agents = 16  # 6
 
         # PPO controls
         self.ppo_epoch = 1

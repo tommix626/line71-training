@@ -5,6 +5,7 @@ Created on Mon Dec 28 15:18:49 2020
 
 @author: mendy
 """
+import random
 
 import numpy as np
 import scipy.stats as stats
@@ -287,11 +288,11 @@ class CLS_bus():
             #         self.need_RLcontrol = True
 
             
-class bus_stop():
+class CLS_bus_stop():
     def __init__(self, loc, i,wait_num,arr_rate,depart_schedule,stop_num):
         self.loc = loc
         self.i = i
-        self.arr_rate =  arr_rate
+        self.arr_rate = arr_rate
         # self.bus_pass_flag = False
         self.latest_bus_pass_time = 0
         self.depart_schedule = depart_schedule
@@ -305,7 +306,7 @@ class bus_stop():
         k = np.random.poisson(self.arr_rate, 1)[0]
         #self.wait_num += k
         for i in range(k):
-            p = CLS_pax(self.i, self.stop_num)
+            p = CLS_pax(self.i, self.stop_num) #FIXME: the last stop must not generate pax (for each line)
             self.pax_list.append(p)
         
     def proceed(self):
@@ -315,8 +316,10 @@ class bus_stop():
 class CLS_pax(object):
     def __init__(self,o,stop_num,label=1):
         self.org_stop = o
-        s = np.random.randint(1, stop_num-self.org_stop)
-        self.des_stop = self.org_stop + s
+        if(o==stop_num-1):
+            print("ERRERE!!")
+        s = random.randint(1, stop_num-self.org_stop-1)
+        self.des_stop = np.array(self.org_stop + s)
         if self.des_stop == 0:
             print("error:",0)
         if self.des_stop <= self.org_stop:
