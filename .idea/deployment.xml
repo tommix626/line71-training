@@ -2,10 +2,11 @@
 <project version="4">
   <component name="PublishConfigData">
     <serverData>
-      <paths name="tom@172.28.19.228:22 password">
+      <paths name="JTU">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/deploy/wxh_line6" local="$PROJECT_DIR$" web="/" />
+            <mapping local="" />
           </mappings>
         </serverdata>
       </paths>

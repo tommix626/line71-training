@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from torch.distributions.normal import Normal
 import torch.nn.functional as F
 #from .networks import MLPNetwork
@@ -267,14 +268,18 @@ class Model(object):
         if os.path.isfile(fname_policy):
             self.policy.load_state_dict(torch.load(fname_policy))
             self.target_policy.load_state_dict(self.policy.state_dict())
+            print("successfully load policy network!")
 
         if os.path.isfile(fname_critic): 
             self.critic.load_state_dict(torch.load(fname_critic))
             self.target_critic.load_state_dict(self.critic.state_dict())
+            print("successfully load critic network!")
 
         if os.path.isfile(fname_policy_optim):
             self.policy_optimizer.load_state_dict(torch.load(fname_policy_optim))
+            print("successfully load policy optimizer!")
 
         if os.path.isfile(fname_critic_optim):
             self.critic_optimizer.load_state_dict(torch.load(fname_critic_optim))
+            print("successfully load critic optimizer!")
 

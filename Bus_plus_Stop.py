@@ -91,6 +91,7 @@ class CLS_bus():
             if self.pax_list[i].des_stop == stop_id:
                 alight_sum += 1
         alight_num = alight_sum - math.ceil(self.alight_list[stop_id])
+        alight_num = int(alight_num)
         # print("alight_num:",alight_num)
         wait_time = []
         travel_time = []

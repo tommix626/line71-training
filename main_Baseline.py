@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jan 25 16:19:18 2021
-
-@author: mendy
+TODOs:
+change the bus number and run through the code
+check the hyperparas and figure out what is the problem
+export MPLBACKEND=Agg
 """
+import os
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import numpy as np
 from Env import Env
 from DrawPicture import gif_init,gif_update,plot_tsd
@@ -15,8 +18,7 @@ import pandas as pd
 import numpy.ma as ma
 import math
 import matplotlib
-import os
-from utils.PPO_answer import Model
+from utils import PPO_answer as PPO
 import pickle
 from IPython.display import display, clear_output, Image
 #matplotlib.rc("font",**{"family":"sans-serif","sans-serif":["Helvetica","Arial"],"size":14})
@@ -52,7 +54,9 @@ envConfig = EnvConfig()
 Hold_Strategy = envConfig.Hold_Strategy  # 0 - no control; 1 - schedule-based 2 - forward headway, 3- two-way headway based # 4- Jiawei
 #---存储结果"/result"---
 root = os.getcwd()
-result_dname = "result_test_71line_16car_"
+result_dname = "result_test_24BUS_remote"
+print("the current directory is:",result_dname," ,is this correct? end the process if not!!")
+safe_check = input()
 if Hold_Strategy == 0:
     tmp = os.path.join(root,result_dname)
     result_path = os.path.join(tmp,"no_control")
@@ -93,7 +97,7 @@ if Hold_Strategy == 4:
     config = Config()
     
     #模型
-    model = Model(config)
+    model = PPO.Model(config)
     model.load_w(model_dir)
     reward_set = []
     reward_p1_set = []
@@ -213,7 +217,7 @@ for i_ep in range(envConfig.num_episodes):
         #仿真结束，更新网络
         if Hold_Strategy == 4:
             for i in range(envConfig.bus_num):
-                for a_idx in range(len(model.rollouts.actions[i])-1):
+                for a_idx in range(len(model.rollouts.actions[i])-1): # for every seg in trajectory
                     start_t = model.rollouts.time[i][a_idx]
                     end_t = model.rollouts.time[i][a_idx+1]
                     #其他bus的駐留時間
@@ -221,7 +225,7 @@ for i_ep in range(envConfig.num_episodes):
                         for_ind = (i-j)%envConfig.bus_num
                         tmp = np.array(env.hold_record[for_ind][start_t:end_t])
                         hold_t = np.sum(tmp>0)/180.0
-                        model.rollouts.observations_all[i][a_idx].append(hold_t)
+                        model.rollouts.observations_all[i][a_idx].append(hold_t) # eg:3buses,4 actions performed:[[[][][][]],[[][][][]],[[][][][]]]
                 model.rollouts.observations_all[i].remove(model.rollouts.observations_all[i][-1])
                  # caculate value function 
                 obs_tmp = torch.from_numpy(np.array(model.rollouts.observations_all[i])).float().to(config.device)
@@ -257,7 +261,7 @@ for i_ep in range(envConfig.num_episodes):
     # print("average journey time:",ave_alltime)
     # print("std:",std_alltime)
 
-if Hold_Strategy == 4: # ploting
+if Hold_Strategy == 4: # ploting after all training
     #PLOT critic loss
     f = plt.figure()
     ax = plt.subplot(111)
@@ -268,7 +272,7 @@ if Hold_Strategy == 4: # ploting
     plt.plot(v_loss_set, alpha=0.2)
     plt.plot(v_loss_set_smoothed, color='orange')
     plt.grid()
-    plt.show()
+    # plt.show()FIXME
     f.savefig(os.path.join(fig_dir,"critic.pdf"), bbox_inches='tight')
     #plot actor loss
     f = plt.figure()
@@ -280,7 +284,7 @@ if Hold_Strategy == 4: # ploting
     plt.plot(actor_loss_set, alpha=0.2)
     plt.plot(a_loss_set_smoothed, color='orange')
     plt.grid()
-    plt.show()
+    # plt.show()FIXME
     f.savefig(os.path.join(fig_dir,"actor.pdf"), bbox_inches='tight')
     # plot reward
     f = plt.figure()
@@ -299,7 +303,7 @@ if Hold_Strategy == 4: # ploting
     plt.plot(reward_p2_set, alpha=0.2)
     plt.plot(rewards_smoothed2, color='green',label='reward for headway equalization')
     ax.legend(loc='best',  fancybox=True, shadow=False, ncol=1, prop={'size': 12})
-    plt.show()
+    # plt.show()FIXME
     f.savefig(os.path.join(fig_dir,"reward_train.pdf"), bbox_inches='tight')
 
 org_file = os.path.join(root,"utils/hyperparameters.py")

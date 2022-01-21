@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="bd905d31-c4de-4d6c-a9af-206c018e6fc8" name="JTU">
+        <fileTransfer rootFolder="/home/tom" accessType="SFTP" host="172.28.19.228" port="22" sshConfigId="fe7b136a-1cb7-479c-b3dc-4751b2c8f1d6" sshConfig="tom@172.28.19.228:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

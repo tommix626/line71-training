@@ -71,7 +71,7 @@ def plot_tsd(traj,sim_horizon,bus_num,stop_loc,fig_dir,episode=None):
     for i in range(bus_num):
         xkcd.append(list(sns.xkcd_rgb.keys())[i])
     #print(xkcd)
-    for i in range(len(traj)):
+    for i in range(len(traj)): # traj:: self.trajectory[dir][b.id].append([b.emit_time,b.trajectory,b.hold_action,b.hold_loc])
         f = plt.figure()
         ax = plt.gca()
         #colors = plt.cm.jet(np.linspace(0, 1,bus_num))
@@ -89,6 +89,7 @@ def plot_tsd(traj,sim_horizon,bus_num,stop_loc,fig_dir,episode=None):
         #单个图例
         labels = []
         for j in range(len(traj[i])):
+            print("i=",i,"j=",j)
             for data in traj[i][j]:
                 start_t = data[0]
                 # end_t = data[1]
@@ -98,13 +99,13 @@ def plot_tsd(traj,sim_horizon,bus_num,stop_loc,fig_dir,episode=None):
                 #plt.scatter(x,y,c=x, cmap=cmp, norm=norm, alpha=0.7)
                 #plt.plot([i for i in range(start_t,end_t+1)], y, '-', label='bus  ' + str(j),c = sns.color_palette("hls", bus_num)[j])
                 if j not in labels: 
-                    plt.plot([i for i in range(start_t,start_t+len(tr))], tr, '-', label='bus  ' + str(j),c=sns.xkcd_rgb[xkcd[j]],lw=1)
+                    plt.plot([i_ for i_ in range(start_t,start_t+len(tr))], tr, '-', label='bus  ' + str(j),c=sns.xkcd_rgb[xkcd[j]],lw=1)
                     labels.append(j)
                 else:
-                    plt.plot([i for i in range(start_t,start_t+len(tr))], tr, '-',c=sns.xkcd_rgb[xkcd[j]],lw=1)
+                    plt.plot([i_ for i_ in range(start_t,start_t+len(tr))], tr, '-',c=sns.xkcd_rgb[xkcd[j]],lw=1)
                 tr_len = len(data[1])
                 hold_len = len(data[2])
-                assert tr_len == hold_len,(f"trajectory length({tr_len})should be equal to the length of holding action ({hold_len}).")
+                assert tr_len == hold_len,("trajectory length(",tr_len,")should be equal to the length of holding action (",hold_len,").")
                 # try:
                 #     assert tr_len == hold_len,(f"trajectory length({tr_len})should be equal to the length of holding action ({hold_len}).")
                 #     # print(tr_len,hold_len)
@@ -112,7 +113,7 @@ def plot_tsd(traj,sim_horizon,bus_num,stop_loc,fig_dir,episode=None):
                 #     # print(data[2])
                 maskscatter = np.ma.array(np.array(data[3]), mask=np.array(data[3])== 0.)
                 normalize = mpl.colors.Normalize(vmin=0, vmax=180)
-                plt.scatter([i for i in range(start_t,start_t+len(data[3]))], maskscatter, c=data[2], norm=normalize,cmap='binary' )
+                plt.scatter([i_ for i_ in range(start_t,start_t+len(data[3]))], maskscatter, c=data[2], norm=normalize,cmap='binary' )
         plt.xlabel('Time step' )
         plt.ylabel('Station' )
         plt.yticks()
@@ -121,7 +122,7 @@ def plot_tsd(traj,sim_horizon,bus_num,stop_loc,fig_dir,episode=None):
         #plt.legend(loc=2)
         plt.legend(bbox_to_anchor=(1,0),loc=3,borderaxespad=0)
         f.savefig(os.path.join(fig_dir,"Tr_d"+str(i)+"_ep"+str(episode)+".png"), bbox_inches='tight')
-        plt.show()
+        # plt.show() FIXME
         
 
 

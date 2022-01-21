@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import torch
 import numpy as np
 from torch.utils.data.sampler import BatchSampler, SubsetRandomSampler
@@ -117,10 +118,10 @@ class RolloutStorage(object):
         self.returns_mix = np.array(self.returns_mix )
         
         batch_size = len(self.observations_mix)
-        print(batch_size)
+        print("batch size=",batch_size)
         assert batch_size >= num_mini_batch, (
-            f"PPO requires the experience size ({batch_size}) "
-            f"to be greater than or equal to the number of PPO mini batches ({num_mini_batch}).")
+            "PPO requires the experience size (",batch_size,") "
+            "to be greater than or equal to the number of PPO mini batches (",num_mini_batch,").")
         mini_batch_size = batch_size // num_mini_batch
         sampler = BatchSampler(SubsetRandomSampler(range(batch_size)), mini_batch_size, drop_last=True)
         for indices in sampler:
