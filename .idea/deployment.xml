@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData">
+  <component name="PublishConfigData" autoUpload="Always" serverName="JTU_New">
     <serverData>
       <paths name="JTU">
         <serverdata>
@@ -10,6 +10,15 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="JTU_New">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/depoly/wxh_line6" local="$PROJECT_DIR$" web="/" />
+            <mapping local="" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>

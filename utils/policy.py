@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 
 # class PolicyNetwork(nn.Module):
 #     """
@@ -66,6 +67,7 @@ class PolicyNetwork(nn.Module):
         self.fc22 = nn.Linear(hidden_dim, 1)
         
         # 迭代循环初始化参数
+        torch.manual_seed(0)
         for m in self.modules():
             if isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, std=0.1)

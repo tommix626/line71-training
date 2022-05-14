@@ -1,6 +1,9 @@
+'''
 # -*- coding: utf-8 -*-
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
+
 
 class MLPNetwork(nn.Module):
     """
@@ -25,6 +28,7 @@ class MLPNetwork(nn.Module):
         else:  # logits for discrete action (will softmax later)
             self.out_fn = lambda x: x
         # 迭代循环初始化参数
+        torch.manual_seed(0)
         for m in self.modules():
             if isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, std=0.1)
@@ -40,3 +44,5 @@ class MLPNetwork(nn.Module):
         h1 = F.elu(self.fc1(X))
         out = self.out_fn(self.fc2(h1))
         return out
+
+'''

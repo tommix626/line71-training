@@ -97,7 +97,7 @@ class RolloutStorage(object):
                     gae = delta + gamma*self.gae_tau * gae  #with discount factor:tau*gamma,accumulate reward!
                     r = gae + self.value_preds[i][step]
                     self.returns[i].append(r)
-                self.returns[i].reverse()
+                self.returns[-i].reverse()
         else:
             for i in range(agent_num):
                 for j in range(len(self.rewards[i])):

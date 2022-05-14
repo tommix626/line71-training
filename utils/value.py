@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 
 # class ValueNetwork(nn.Module):
 #     """
@@ -54,6 +55,7 @@ class ValueNetwork(nn.Module):
         self.fc2 = nn.Linear(hidden_dim, out_dim)
         self.out_fn = lambda x: x
         # 迭代循环初始化参数
+        torch.manual_seed(0)
         for m in self.modules():
             if isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, std=0.1)

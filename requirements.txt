@@ -1,0 +1,14 @@
+decorator
+future
+Markdown
+matplotlib
+numpy
+pandas
+pickleshare
+Pillow
+prompt-toolkit
+python-dateutil
+scipy
+seaborn
+six
+ipython

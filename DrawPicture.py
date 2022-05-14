@@ -83,13 +83,13 @@ def plot_tsd(traj,sim_horizon,bus_num,stop_loc,fig_dir,episode=None):
         #                 '9', '10', '11', '12','13','14','15','16','17','18','19','20','21','22','23','24'])
         plt.yticks(stop_loc,
                         ['1', '2', '3', '4', '5', '6', '7', '8',
-                        '9', '10', '11', '12','13','14','15','16','17','18','19','20','21','22','23','24']) #TODO:also change here
+                        '9', '10', '11', '12','13','14','15','16','17']) #TODO:also change here
         # plt.yticks(stop_loc,
         #                 ['1', '2', '3', '4', '5', '6'])
         #单个图例
         labels = []
         for j in range(len(traj[i])):
-            print("i=",i,"j=",j)
+            # print("i=",i,"j=",j)
             for data in traj[i][j]:
                 start_t = data[0]
                 # end_t = data[1]

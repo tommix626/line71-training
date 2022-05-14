@@ -7,8 +7,10 @@ check the hyperparas and figure out what is the problem
 export MPLBACKEND=Agg
 """
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '3'
+os.environ['CUBLAS_WORKSPACE_CONFIG'] = ':4096:8'
 import numpy as np
+np.random.seed(0)
 from Env import Env
 from DrawPicture import gif_init,gif_update,plot_tsd
 #from MRL_brain_bus import agent_PPO
@@ -46,17 +48,40 @@ from utils.hyperparameters import EnvConfig
 #from utils.PPO import Model
 from utils.hyperparameters import Config
 import torch
+# torch.use_deterministic_algorithms(True)
+torch.manual_seed(0)
+import random
+random.seed(0)
 import time
 
 #######-------参数设置----#######
 envConfig = EnvConfig()
 
 Hold_Strategy = envConfig.Hold_Strategy  # 0 - no control; 1 - schedule-based 2 - forward headway, 3- two-way headway based # 4- Jiawei
+
+# result_dname = "result_test_best_replication"
+if Hold_Strategy == 4:
+    config = Config()
+    result_dname = "TRAIN_"+str(config.w1)+"_"+str(config.w2)+"_"+str(config.a_lr)+"_"+str(config.c_lr)+"_"+str(config.ppo_clip_param)
+    print("the current directory is:", result_dname, " ,is this correct? end the process if not!!")
+    print("(w1,w2,aLR,cLR,clipE):",config.w1,config.w2,config.a_lr,config.c_lr,config.ppo_clip_param)
+    safe_check = input()
+    if safe_check=="remote" or safe_check=="r":
+        result_dname = "R"+result_dname
+        print("Chnage to remote. Directory is:", result_dname, "confirm?")
+        safe_check = input()
+    elif safe_check=="y" or safe_check=="yes":
+        pass
+    else:
+        result_dname = result_dname+"_"+safe_check
+        print("Add Suffix. Directory is:", result_dname)
+else:
+    result_dname = "TMP"
+    print("Directory is:TMP!!!!!")
 #---存储结果"/result"---
 root = os.getcwd()
-result_dname = "result_test_24BUS_remote"
-print("the current directory is:",result_dname," ,is this correct? end the process if not!!")
-safe_check = input()
+# print("the current directory is:",result_dname," ,is this correct? end the process if not!!")
+# safe_check = input()
 if Hold_Strategy == 0:
     tmp = os.path.join(root,result_dname)
     result_path = os.path.join(tmp,"no_control")

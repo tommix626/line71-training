@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="1d129229-f479-4fbe-96d0-3e5c03a821a6" name="JTU_New">
+        <fileTransfer rootFolder="/home/tom" accessType="SFTP" host="172.28.233.183" port="22" sshConfigId="56e56aed-b146-4cc4-a6cc-28ef91d36f04" sshConfig="JTU_New">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
